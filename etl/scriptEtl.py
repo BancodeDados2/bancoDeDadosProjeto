@@ -3,6 +3,11 @@ from PyPDF2 import PdfReader # biblioteca para leitura de pdf
 import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
+import os
+
+diretorio = './resultados_csv/'
+os.makedirs(os.path.dirname(diretorio), exist_ok=True)
+
 
 root = tk.Tk()
 root.withdraw()
@@ -88,5 +93,5 @@ for file in file_path:
     tabela.columns.values[11] = "media_final"
     tabela.columns.values[12] = "total_faltas"
     tabela.columns.values[13] = "resultado"
-    
-    tabela.to_csv(f"resultados/{turma[i]}.csv", index=False)
+
+    tabela.to_csv(f'./resultados_csv/{turma[i]}.csv', index=False)
