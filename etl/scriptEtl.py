@@ -2,6 +2,7 @@
 # disciplinas com dois professores (educação física)
 # matrícula docente concatenada com docente (VANILDA I2021TF)
 # nomes longos ocupam 3 linhas (I2081TF)
+#I2042ME e I2122ME lendo a tabela de faltas como tabela de notas
 
 import tabula # biblioteca para conversão de tabelas em pdf para DataFrames
 from PyPDF2 import PdfReader # biblioteca para leitura de pdf
@@ -109,8 +110,10 @@ for file in file_path:
         if len(tabela.columns) == 12:
             tabela.drop([0, 1, 2, 3], inplace=True)
             tabela.drop(tabela.columns[0], axis=1, inplace=True)
-            tabela.fillna(-1.0, inplace=True)
-            tabela[tabela.columns[[2, 3, 4, 5, 6, 7, 8]]] = tabela[tabela.columns[[2, 3, 4, 5, 6, 7, 8]]].map(lambda x: x.replace(',','.') if isinstance(x, str) else x).astype(float)
+            tabela.fillna("-1.0", inplace=True)
+            tabela[tabela.columns[8]] = tabela[tabela.columns[8]].apply(lambda x: x.replace('.', ',') if isinstance(x, str) else x.str.replace('.', ','))
+            tabela[tabela.columns[9]] = tabela[tabela.columns[9]].apply(lambda x: x.int if x != -1.0 and isinstance(x, int) else x)
+            #tabela[tabela.columns[[2, 3, 4, 5, 6, 7, 8]]] = tabela[tabela.columns[[2, 3, 4, 5, 6, 7, 8]]].map(lambda x: x.replace(',','.') if isinstance(x, str) else x).astype(float)
             tabelas_nota.append(tabela)
     
     for i, tabela in enumerate(tabelas_nota):
