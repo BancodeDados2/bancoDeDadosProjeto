@@ -110,8 +110,8 @@ for file in file_path:
         if len(tabela.columns) == 12:
             tabela.drop([0, 1, 2, 3], inplace=True)
             tabela.drop(tabela.columns[0], axis=1, inplace=True)
-            tabela.fillna("-1.0", inplace=True)
-            tabela[tabela.columns[8]] = tabela[tabela.columns[8]].apply(lambda x: x.replace('.', ',') if isinstance(x, str) else x.str.replace('.', ','))
+            tabela.fillna(-1.0, inplace=True)
+            tabela[tabela.columns[8]] = tabela[tabela.columns[8]].apply(lambda x: x.replace('.', ',') if x != -1.0 else x)
             tabela[tabela.columns[9]] = tabela[tabela.columns[9]].apply(lambda x: x.int if x != -1.0 and isinstance(x, int) else x)
             #tabela[tabela.columns[[2, 3, 4, 5, 6, 7, 8]]] = tabela[tabela.columns[[2, 3, 4, 5, 6, 7, 8]]].map(lambda x: x.replace(',','.') if isinstance(x, str) else x).astype(float)
             tabelas_nota.append(tabela)
